@@ -6,5 +6,4 @@ class Deposit(models.Model):
 	eno = models.AutoField(primary_key=True)
     
     class Meta:
-        db_table ='mgd.deposits'
-        
+        db_table = 'mgd.deposits'
