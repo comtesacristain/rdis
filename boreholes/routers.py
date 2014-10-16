@@ -9,7 +9,7 @@ class ProdRouter(object):
         """
         if model._meta.app_label == 'boreholes':
             return 'production'
-        return None
+        return 'default'
 
     def db_for_write(self, model, **hints):
         """
@@ -17,7 +17,7 @@ class ProdRouter(object):
         """
         if model._meta.app_label == 'boreholes':
             return 'production'
-        return None
+        return 'default'
 
     def allow_relation(self, obj1, obj2, **hints):
         """
@@ -26,7 +26,9 @@ class ProdRouter(object):
         if obj1._meta.app_label == 'boreholes' or \
            obj2._meta.app_label == 'boreholes':
            return True
-        return None
+        elif 'boreholes' not in [obj1._meta.app_label, obj2._meta.app_label]:
+            return True
+        return False
 
     def allow_migrate(self, db, model):
         """
