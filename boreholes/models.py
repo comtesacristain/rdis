@@ -1,4 +1,4 @@
-from django.db import models
+from django.contrib.gis.db import models
 
 # Create your models here.
 
@@ -13,7 +13,9 @@ class Borehole(models.Model):
     eno = models.AutoField(primary_key=True)
     entityid = models.TextField()
     entity_type = models.TextField()
-    
+    geom = models.GeometryCollectionField(dim=2)
+    objects=models.GeoManager()    
+ 
     def __str__(self):              # __unicode__ on Python 2
         return self.entityid
     
