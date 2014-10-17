@@ -13,7 +13,8 @@ class Borehole(models.Model):
     eno = models.AutoField(primary_key=True)
     entityid = models.TextField()
     entity_type = models.TextField()
-    geom = models.GeometryCollectionField(dim=2)
+    
+    geom = models.GeometryCollectionField(db_column='sdo_util.to_gmlgeometry(geom)')
     objects=models.GeoManager()    
  
     def __str__(self):              # __unicode__ on Python 2
