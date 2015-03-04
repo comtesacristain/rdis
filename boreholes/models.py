@@ -41,8 +41,18 @@ class Survey(Entity):
         
 class Sample(models.Model):
     sampleno = models.AutoField(primary_key=True)
-    entity = models.ForeignKey("Borehole",db_column="eno")
+    sampleid = models.TextField()
+    entity = models.ForeignKey("Entity",db_column="eno")
+    
+    def __str__(self):              # __unicode__ on Python 2
+        return self.sampleid
     
     class Meta:
         db_table = '"a"."samples"'
-    pass
+        
+class SampleData(models.Model):
+    sample = models.ForeignKey("Sample",db_column="sampleno")
+
+    
+    class Meta:
+        db_table = '"a"."sampledata"'
