@@ -42,5 +42,5 @@ class Survey(Entity):
     objects=EntitiesManager("SURVEY")
         
 class Sample(models.Model):
-    entity = models.ForeignKey(Entity,db_column=eno)
+    entity = models.ForeignKey(Entity,db_column="eno")
    
