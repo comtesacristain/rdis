@@ -20,17 +20,15 @@ class Entity(models.Model):
 class EntitiesManager(models.GeoManager):
     def __init__(self,entity_type):
         super(EntitiesManager, self).__init__()
+        
         self.entity_type=entity_type
 
     def get_queryset(self):
         return super(EntitiesManager, self).get_queryset().filter(entity_type=self.entity_type)
 
-class BoreholesManager(models.GeoManager):
-    def get_queryset(self):
-        return super(BoreholesManager, self).get_queryset().filter(entity_type="DRILLHOLE")
-
 class Borehole(Entity):
-    objects=BoreholesManager()
+    objects=EntitiesManager("DRILLHOLE")
+    
  
 class Deposit(Entity):
     objects=EntitiesManager("MINERAL DEPOSIT")
@@ -43,7 +41,7 @@ class Survey(Entity):
         
 class Sample(models.Model):
     sampleno = models.AutoField(primary_key=True)
-    entity = models.ForeignKey("Entity",db_column="eno")
+    entity = models.ForeignKey("Borehole",db_column="eno")
     
     class Meta:
         db_table = '"a"."samples"'
