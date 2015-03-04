@@ -43,7 +43,7 @@ class Survey(Entity):
         
 class Sample(models.Model):
     sampleno = models.AutoField(primary_key=True)
-    entity = models.ForeignKey(Borehole,db_column="eno")
+    entity = models.ForeignKey("Entity",db_column="eno")
     
     class Meta:
         db_table = '"a"."samples"'
