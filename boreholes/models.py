@@ -30,7 +30,6 @@ class BoreholesManager(models.GeoManager):
         return super(BoreholesManager, self).get_queryset().filter(entity_type="DRILLHOLE")
 
 class Borehole(Entity):
-    sample = Sample()
     objects=BoreholesManager()
  
 class Deposit(Entity):
@@ -43,4 +42,5 @@ class Survey(Entity):
     objects=EntitiesManager("SURVEY")
         
 class Sample(models.Model):
-    
+    entity = models.ForeignKey(Entity,db_column=eno)
+   
