@@ -47,3 +47,4 @@ class Sample(models.Model):
     
     class Meta:
         db_table = '"a"."samples"'
+    pass
