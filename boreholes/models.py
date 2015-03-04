@@ -42,5 +42,8 @@ class Survey(Entity):
     objects=EntitiesManager("SURVEY")
         
 class Sample(models.Model):
+    sampleno = models.AutoField(primary_key=True)
     entity = models.ForeignKey(Entity,db_column="eno")
-   
+    
+    class Meta:
+        db_table = '"a"."samples"'
