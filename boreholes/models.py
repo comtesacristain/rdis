@@ -10,6 +10,7 @@ class Entity(models.Model):
     access_code = models.TextField()
     geom = models.GeometryField(srid=8311)
    
+    objects = models.GeoManager()
     def __str__(self):              # __unicode__ on Python 2
         return self.entityid
 	
