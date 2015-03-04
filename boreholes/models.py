@@ -9,8 +9,7 @@ class Entity(models.Model):
     confid_until = models.DateField()
     access_code = models.TextField()
     geom = models.GeometryField(srid=8311)
-   
-    objects = models.GeoManager()
+
     def __str__(self):              # __unicode__ on Python 2
         return self.entityid
 	
@@ -44,7 +43,7 @@ class Survey(Entity):
         
 class Sample(models.Model):
     sampleno = models.AutoField(primary_key=True)
-    entity = models.ForeignKey(Entity,db_column="eno")
+    entity = models.ForeignKey(Borehole,db_column="eno")
     
     class Meta:
         db_table = '"a"."samples"'
