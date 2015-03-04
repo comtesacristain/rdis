@@ -80,3 +80,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 GEOS_LIBRARY_PATH = '/nas/oemd/mra/apps/lib/libgeos_c.so'
+GDAL_LIBRARY_PATH = '/nas/oemd/mra/apps/lib/libgdal.so'
