@@ -6,9 +6,9 @@ class Entity(models.Model):
     eno = models.AutoField(primary_key=True)
     entityid = models.TextField()
     entity_type = models.TextField()
-    confid_until = models.DateField()
-    access_code = models.TextField()
-    geom = models.GeometryField(srid=8311)
+    confid_until = models.DateField(null=True)
+    access_code = models.TextField(null=True)
+    geom = models.GeometryField(srid=8311,null=True)
 
     def __str__(self):              # __unicode__ on Python 2
         return self.entityid
@@ -26,10 +26,12 @@ class EntitiesManager(models.GeoManager):
     def get_queryset(self):
         return super(EntitiesManager, self).get_queryset().filter(entity_type=self.entity_type)
 
-class Borehole(Entity):
+class Drillhole(Entity):
     objects=EntitiesManager("DRILLHOLE")
     
- 
+class Well(Entity):
+    objects=EntitiesManager("WELL")
+	
 class Deposit(Entity):
     objects=EntitiesManager("MINERAL DEPOSIT")
  
@@ -42,7 +44,7 @@ class Survey(Entity):
 class Sample(models.Model):
     sampleno = models.AutoField(primary_key=True)
     sampleid = models.TextField()
-    entity = models.ForeignKey("Borehole",db_column="eno")
+    entity = models.ForeignKey("Drillhole",db_column="eno")
     
     def __str__(self):              # __unicode__ on Python 2
         return self.sampleid
