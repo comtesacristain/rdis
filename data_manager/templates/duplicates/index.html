@@ -1,0 +1,16 @@
+<table>
+	<tr>
+		<th>Group ID</th>
+		<th>Duplicate field</th>
+		<th>Duplicate type</th>
+		<th>Number of duplicates</th>
+	</tr>
+	{% for duplicate in duplicate_groups %}
+	<tr>
+		<td>{{duplicate.pk}}</td>
+		<td>{{duplicate.field}}</td>
+		<td>{{duplicate.kind}}</td>
+		<td>{{duplicate.duplicate_set.count}}</td>
+	</tr>
+	{% endfor %}	
+</table>
