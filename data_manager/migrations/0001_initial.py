@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='DuplicateType',
+            name='DuplicateGroup',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('kind', models.TextField(null=True)),
@@ -35,8 +35,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='duplicate',
-            name='duplicate',
-            field=models.ForeignKey(to='data_manager.DuplicateType', null=True),
+            name='duplicate_group',
+            field=models.ForeignKey(to='data_manager.DuplicateGroup', null=True),
             preserve_default=True,
         ),
     ]
