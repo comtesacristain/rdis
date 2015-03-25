@@ -1,9 +1,11 @@
 .table {
     
-    float: left;
+    display: inline-block;
     margin: 5px;
+	white-space: nowrap;
 }
 .duplicate {
+	float: left;
     font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue';
     font-size: 11pt;
 }
