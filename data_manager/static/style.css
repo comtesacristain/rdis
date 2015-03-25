@@ -7,7 +7,7 @@
 }
 .duplicate {
 	float: left;
-    font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue';
+    font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica;
     font-size: 11pt;
 	white-space: nowrap;
 }
