@@ -1,13 +1,15 @@
 .table {
     
     display: inline-block;
+	vertical-align: top;
     margin: 5px;
-	white-space: nowrap;
+
 }
 .duplicate {
 	float: left;
     font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue';
     font-size: 11pt;
+	white-space: nowrap;
 }
 
 div {
