@@ -34,6 +34,8 @@ class Well(models.Model):
     #eno = models.AutoField(primary_key=True)
     welltype = models.TextField()    
     purpose = models.TextField()
+    classification = models.TextField()
+    operator = models.TextField()
     status = models.TextField()
     start_date = models.DateField()
     completion_date = models.DateField()
