@@ -9,13 +9,14 @@ class Entity(models.Model):
     confid_until = models.DateField(null=True)
     access_code = models.TextField(null=True)
     geom = models.GeometryField(srid=8311,null=True)
-
+    objects = models.GeoManager()
+	
     def __str__(self):              # __unicode__ on Python 2
         return self.entityid
 	
     class Meta:
         db_table = '"a"."entities"'
-        abstract = True
+        #abstract = True
 
 class EntitiesManager(models.GeoManager):
     def __init__(self,entity_type):
@@ -26,25 +27,38 @@ class EntitiesManager(models.GeoManager):
     def get_queryset(self):
         return super(EntitiesManager, self).get_queryset().filter(entity_type=self.entity_type)
 
-class Drillhole(Entity):
-    objects=EntitiesManager("DRILLHOLE")
-    
-class Well(Entity):
-    objects=EntitiesManager("WELL")
+#class Drillhole(Entity):
+#   objects=EntitiesManager("DRILLHOLE")
 	
-class Deposit(Entity):
-    objects=EntitiesManager("MINERAL DEPOSIT")
- 
-class Province(Entity):
-    objects=EntitiesManager("PROVINCE") 
+class Well(models.Model):
+    #eno = models.AutoField(primary_key=True)
+    welltype = models.TextField()    
+    purpose = models.TextField()
+    status = models.TextField()
+    start_date = models.DateField()
+    completion_date = models.DateField()
+	
+    entity = models.OneToOneField("Entity",primary_key=True,db_column="eno")
+    class Meta:
+        db_table = '"npm"."wells"'
     
-class Survey(Entity):
-    objects=EntitiesManager("SURVEY")
+#class Well(Entity):
+#    objects=EntitiesManager("WELL")
+	
+#class Deposit(Entity):
+#    objects=EntitiesManager("MINERAL DEPOSIT")
+ 
+
+#class Province(Entity):
+#    objects=EntitiesManager("PROVINCE") 
+    
+#class Survey(Entity):
+#    objects=EntitiesManager("SURVEY")
         
 class Sample(models.Model):
     sampleno = models.AutoField(primary_key=True)
     sampleid = models.TextField()
-    entity = models.ForeignKey("Drillhole",db_column="eno")
+    entity = models.ForeignKey("Entity",db_column="eno")
     
     def __str__(self):              # __unicode__ on Python 2
         return self.sampleid
