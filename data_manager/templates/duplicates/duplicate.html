@@ -1,7 +1,7 @@
-<div>{%for duplicate in duplicate_entities%}
+<div style="white-space: nowrap;">{%for duplicate in duplicate_entities%}
   <table>
 	  <tr><th>Primary Key</th><td>{{duplicate.eno}}</td></tr>
-	  <tr><th>Name</th><td>{{dduplicate.entityid}}</td></tr>
+	  <tr><th>Name</th><td>{{duplicate.entityid}}</td></tr>
 	  <tr><th>Entity Type</th><td>{{duplicate.entity_type}}</td></tr>
 	  <tr><th>Well Type</th><td>{{duplicate.well.welltype}}</td></tr>
 	  <tr><th>Operator</th><td>{{duplicate.well.operator}}</td></tr>
