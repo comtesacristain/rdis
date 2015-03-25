@@ -1,8 +1,8 @@
 {% load staticfiles %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
-<div style="white-space: nowrap;">
-  <div class="table-header">
+<div class="duplicate">
+  <div class="table header">
 	  <div>Primary Key</div>
 	  <div>Name</div>
 	  <div>Entity Type</div>
@@ -10,7 +10,7 @@
 	  <div>Operator</div>
   </div>
   {%for duplicate in duplicate_entities%}
-  <div>
+  <div class="table">
 	  <div>{{duplicate.eno}}</div>
 	  <div>{{duplicate.entityid}}</div>
 	  <div>{{duplicate.entity_type}}</div>
