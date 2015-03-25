@@ -11,6 +11,9 @@
 	  <div>Purpose</div>
 	  <div>Status</div>
 	  <div>Classification</div>
+	  <div>Start Date</div>
+	  <div>Completion Date</div>
+	  
   </div>
   {%for duplicate in duplicate_entities%}
   <div class="table">
@@ -22,6 +25,9 @@
 	  <div>{{duplicate.well.purpose}}</div>
 	  <div>{{duplicate.well.status}}</div>
 	  <div>{{duplicate.well.classification}}</div>
+	  <div>{{duplicate.well.start_date}}</div>
+	  <div>{{duplicate.well.completion_date}}</div>
+	  
 	  
   </div>
 {% endfor %}
