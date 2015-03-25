@@ -16,4 +16,4 @@ def duplicate(request, id):
     duplicates = duplicate_group.duplicate_set.all() 
     enos = [x[0] for x in duplicates.values_list('table_id')]
     duplicate_entities=Entity.objects.filter(eno__in=enos)
-    return render(request, 'duplicates/duplicate.html', {"duplicate_group":duplicate_group,"duplicates":duplicates})
+    return render(request, 'duplicates/duplicate.html', {"duplicate_group":duplicate_group,"duplicates":duplicate_entities})
