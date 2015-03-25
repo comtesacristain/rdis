@@ -16,6 +16,8 @@
 	  <div>Classification</div>
 	  <div>Start Date</div>
 	  <div>Completion Date</div>
+	  <div></div>
+	  <div>Number of Samples</div>
 	  
   </div>
   {%for duplicate in duplicate_entities%}
@@ -33,6 +35,8 @@
 	  <div>{{duplicate.well.classification}}</div>
 	  <div>{{duplicate.well.start_date}}</div>
 	  <div>{{duplicate.well.completion_date}}</div>
+	  <div></div>
+	  <div>{{duplicate.sample_set.count()}}
 	  
 	  
   </div>
