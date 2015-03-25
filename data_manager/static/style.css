@@ -1,0 +1,13 @@
+.table {
+    
+    float: left;
+    margin: 5px;
+}
+.duplicate {
+    font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue';
+    font-size: 11pt;
+}
+
+div {
+    height: 1em;
+}
