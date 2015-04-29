@@ -1,3 +1,15 @@
+<!doctype html> <!-- html5 -->
+<html lang="en"> <!-- lang="xx" is allowed, but NO xmlns="http://www.w3.org/1999/xhtml", lang:xml="", and so on -->
+<head>
+<meta http-equiv="x-ua-compatible" content="IE=Edge"/> 
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+</head>
+<body>
+<div class="content">
+
+<div></div>
 <table>
 	<tr>
 		<th>Group ID</th>
@@ -14,3 +26,23 @@
 	</tr>
 	{% endfor %}	
 </table>
+<div class="pagination">
+    <span class="step-links">
+        {% if duplicate_groups.has_previous %}
+            <a href="?page={{ duplicate_groups.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ duplicate_groups.number }} of {{ duplicate_groups.paginator.num_pages }}.
+        </span>
+
+        {% if duplicate_groups.has_next %}
+            <a href="?page={{ duplicate_groups.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+</div>
+
+
+</body>
+</html>

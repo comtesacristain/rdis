@@ -1,14 +1,22 @@
+<!doctype html> <!-- html5 -->
+<html lang="en"> <!-- lang="xx" is allowed, but NO xmlns="http://www.w3.org/1999/xhtml", lang:xml="", and so on -->
+<head>
+<meta http-equiv="x-ua-compatible" content="IE=Edge"/> 
 {% load staticfiles %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+</head>
+<body>
+<div class="content">
 <div class="duplicate">
   <div class="table header">
 	  <div>Primary Key</div>
 	  <div>Name</div>
 	  <div>Entity Type</div>
-	  <div>Geom Longitude</div>
-	  <div>Geom Latitude</div>
-	  <div>Geom Height</div>
+	  <div>Longitude (x)</div>
+	  <div>Latitude (y)</div>
+	  <div>Height (z)</div>
+	  <div></div>
 	  <div>Well Type</div>
 	  <div>Operator</div>
 	  <div>Purpose</div>
@@ -16,8 +24,12 @@
 	  <div>Classification</div>
 	  <div>Start Date</div>
 	  <div>Completion Date</div>
+	  <div>Originator</div>
+	  <div>Total Depth</div>
 	  <div></div>
 	  <div>Number of Samples</div>
+	  <div></div>
+	  <div>Deletion Status</div>
 	  
   </div>
   {%for duplicate in duplicate_entities%}
@@ -25,20 +37,28 @@
 	  <div>{{duplicate.eno}}</div>
 	  <div>{{duplicate.entityid}}</div>
 	  <div>{{duplicate.entity_type}}</div>
-	   <div>{{duplicate.geom.x}}</div>
-	    <div>{{duplicate.geom.y}}</div>
-		 <div>{{duplicate.geom.z}}</div>
-	  <div>{{duplicate.well.welltype}}</div>
-	  <div>{{duplicate.well.operator}}</div>
-	  <div>{{duplicate.well.purpose}}</div>
-	  <div>{{duplicate.well.status}}</div>
-	  <div>{{duplicate.well.classification}}</div>
-	  <div>{{duplicate.well.start_date}}</div>
-	  <div>{{duplicate.well.completion_date}}</div>
+	   <div>{{duplicate.x}}</div>
+	    <div>{{duplicate.y}}</div>
+		 <div>{{duplicate.z}}</div>
 	  <div></div>
-	  <div>{{duplicate.sample_set.count}}</div>
+	  <div>{{duplicate.entity.well.welltype}}</div>
+	  <div>{{duplicate.entity.well.operator}}</div>
+	  <div>{{duplicate.entity.well.purpose}}</div>
+	  <div>{{duplicate.entity.well.status}}</div>
+	  <div>{{duplicate.entity.well.classification}}</div>
+	  <div>{{duplicate.entity.well.start_date}}</div>
+	  <div>{{duplicate.entity.well.completion_date}}</div>
+	  <div>{{duplicate.entity.well.originator}}</div>
+	  <div>{{duplicate.entity.well.total_depth}}</div>
+	  <div></div>
+	  <div>{{duplicate.entity.sample_set.count}}</div>
+	  <div></div>
+	  <div>{{duplicate.deletion_status}}</div>
 	  
 	  
   </div>
 {% endfor %}
 </div>
+</div>
+</body>
+</html>
