@@ -39,11 +39,28 @@ class Well(models.Model):
     status = models.TextField()
     start_date = models.DateField()
     completion_date = models.DateField()
+    total_depth =models.IntegerField()
+    orig = models.TextField(db_column="originator")
+    origno = models.ForeignKey("Originator",db_column="origno")
+    
+    def originator(self):
+        if self.origno is None:
+            return self.orig
+        else:
+            return self.origno.originator
+            
+    
 	
     entity = models.OneToOneField("Entity",primary_key=True,db_column="eno")
     class Meta:
         db_table = '"npm"."wells"'
-    
+
+        
+class Originator(models.Model):
+    origno =  models.AutoField(primary_key=True)
+    originator = models.TextField()
+    class Meta:
+        db_table = '"a"."v_originators"'
 #class Well(Entity):
 #    objects=EntitiesManager("WELL")
 	
