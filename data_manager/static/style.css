@@ -1,17 +1,43 @@
+body, html{
+  margin:0;
+  padding:0;
+}
+
+body {
+ background-color: #66aadd;
+}
+
+.content {
+  margin: 30px;
+  padding: 10px;
+  width: 90vw;
+  height: 90vh;
+  	overflow-y: scroll;
+
+}
+
 .table {
     
     display: inline-block;
 	vertical-align: top;
     margin: 5px;
-
+	
 }
+
+.header  {
+	font-weight: bold;
+}
+
 .duplicate {
 	float: left;
     font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica;
     font-size: 11pt;
+
 	white-space: nowrap;
+	
 }
 
 div {
-    height: 1em;
+     background: white;
+    height: 1.1em;
 }
