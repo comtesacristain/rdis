@@ -1,7 +1,8 @@
 from django.core.management.base import BaseCommand, CommandError
 from data_manager.models import Duplicate, DuplicateGroup
 from rdis import database
-import cx_Oracle,csv
+from collections import Counter
+import cx_Oracle,re
 
 exact = "select eno, entityid, geom, entity_type from a.entities e where sdo_equal(e.geom,{geom})='TRUE' and entity_type in ('DRILLHOLE','WELL') and eno <> {eno}"
 hundred_metres = "select eno, entityid, geom, entity_type from a.entities e where sdo_within_distance(e.geom,{geom},'distance= 100,units=m')='TRUE' and entity_type in ('DRILLHOLE','WELL') and eno <> {eno}"
@@ -45,10 +46,6 @@ class Command(BaseCommand):
                     stmt = spatial_queries[key].format(eno=entity[0],geom=search_geometry)
                     results=curs.execute(stmt).fetchall()
                     if results.__len__() > 0:
-                        #duplicates.append(results)
-                        print entity
-                        print results
-                        print key
                         self.insert_dupes(entity, results,key)
     
     def insert_dupes(self,orig,dupe_set,kind):
@@ -89,36 +86,73 @@ class Command(BaseCommand):
     def rank_duplicates(self):
         dupe_groups = DuplicateGroup.objects.all()
         for duplicate_group in dupe_groups:
-            duplicates = duplicate_group.duplicate_set.all()
-            self.rank(duplicates)
+            print duplicate_group.id
+            duplicates = duplicate_group.duplicate_set
+            type_set = list(set(duplicates.values_list('entity_type',flat=True)))
+            if len(type_set) == 2:
+                self.rank_well_and_drillhole(duplicates)
+            elif type_set[0] == 'WELL':
+                self.rank_wells(duplicates)
+            elif type_set[0] == 'DRILLHOLE':
+                self.rank_drillholes(duplicates)
+            #duplicates = duplicate_group.duplicate_set.all()
+            #self.rank(duplicates)
+            actions = duplicate_group.duplicate_set.values_list("action_status",flat=True)
+            if "DELETE" in actions:
+                duplicate_group.has_resolution = 'Y'
+                duplicate_group.save()
     
-    def rank(self, duplicates):
-        duplicate = duplicates.first()
-        remaining_set = duplicates.exclude(id=duplicate.id)
-        if duplicate.entity_type == 'WELL':
-            print duplicate
-            remaining_well_set=remaining_set.filter(entity_type='WELL')
-            if not remaining_well_set.exists():
-                duplicate.deletion_status='KEEP'
-            elif remaining_well_set.filter(entityid__ieq=duplicate.entityid):
-                duplicate.deletion_status='UN'
-        elif duplicate.entity_type == 'DRILLHOLE':
-            remaining_well_set=remaining_set.filter(entity_type='WELL')
-            if remaining_well_set.exists():
-                duplicate.deletion_status='DELETE'
-        duplicate.save()
-        if remaining_set.exists():
-            self.rank(remaining_set)
-            # for duplicate in duplicate_group.duplicate_set.all():
-                # if duplicate.entity_type =='WELL':
-                    # remaining_set = duplicate_group.duplicate_set.exclude(id=duplicate.id).filter(entity_type="WELL")
-                    # if remaining_set.filter(entity_type="WELL").exists():
-                        # print remaining_set
-                    # else:
-                        # print "DUPLICATE SCORE UP"
-                # elif duplicate.entity_type =='DRILLHOLE':
-                    # print "DUPLICATE SCORE DOWN"
+    def rank_well_and_drillhole(self, duplicates):
+        well_set=duplicates.filter(entity_type='WELL')
+        drillhole_set = duplicates.filter(entity_type='DRILLHOLE')
+        if len(well_set) == 1:
+            well = well_set.first()
+            well.action_status='KEEP'
+        else:
+            self.rank_wells(well_set)
+            return
+        drillhole_names=drillhole_set.values_list('entityid',flat=True)
+        if self.parse_string(well.entityid) in [self.parse_string(name) for name in drillhole_names]:
+            drillhole_set.filter(entityid__iregex=self.regex_string(well.entityid)).update(action_status='DELETE',data_transferred_to=well.eno)
+        else: 
+            pass    
+        well.save()
+
+        
+
     
-    def check_for_wells(self, remaining_set):
-        remaining_set
- 
+    
+    def rank_wells(self,duplicates):
+        pass
+    
+    def rank_drillholes(self, duplicates):
+        names = self.name_dictionary(duplicates.values_list('entityid',flat=True))
+        
+        if len(names) > 1:
+            for n in names:
+                if len(names[n]) > 1:
+                    self.rank_drillholes(duplicates.filter(entityid__in=names[n]))
+        elif len(names) == 1:
+            print duplicates.values_list("z",flat=True)
+            dates = dict([(duplicate.entity().entrydate,duplicate.eno) for duplicate in duplicates.all()])
+            eno = dates[min(dates.keys())]
+            duplicates.filter(eno=eno).update(action_status='KEEP')
+            duplicates.exclude(eno=eno).update(action_status='DELETE',data_transferred_to=eno)
+        pass
+    
+    def name_dictionary(self,names):
+        d =dict()
+        names=zip([self.strip_leading_zeros(name) for name in names], names)
+        for key, val in names:
+            d.setdefault(key, []).append(val)
+        return d    
+   
+    def strip_leading_zeros(self, s):
+        return re.sub('(?<=[A-Z])+0+','',s)
+    
+    def parse_string(self, s):
+        s=s.lower()
+        return re.sub('[\W_]+', ' ', s)
+        
+    def regex_string(self, s):
+        return re.sub('[\W_]+','.',s)
