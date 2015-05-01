@@ -5,6 +5,7 @@ body, html{
 
 body {
  background-color: #66aadd;
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica;
 }
 
 .content {
@@ -13,6 +14,7 @@ body {
   width: 90vw;
   height: 90vh;
   	overflow-y: scroll;
+	
 
 }
 
@@ -30,14 +32,21 @@ body {
 
 .duplicate {
 	float: left;
-    font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica;
+   
     font-size: 11pt;
 
 	white-space: nowrap;
-	
+
 }
 
 div {
      background: white;
     height: 1.1em;
+}
+
+.status {
+	margin-left:auto;
+    margin-right:auto;
+    height:auto; 
+    width:auto;
 }
