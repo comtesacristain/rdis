@@ -3,11 +3,26 @@
 <head>
 <meta http-equiv="x-ua-compatible" content="IE=Edge"/> 
 {% load staticfiles %}
+{% load duplicate_extras %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
 </head>
 <body>
 <div class="content">
+<div>These are duplicates with coordinates that are  {% ifequal duplicate_group.kind "hundred_metres" %} within one {{duplicate_group.kind |  humanize}}. {%else %} exactly matched.{% endifequal %}</div>
+<div></div>
+{% ifequal duplicate_group.has_resolution "Y" %} <div>This set of duplicates has been determined to be resolved according to the details below.</div>
+<div><table><tr><td>Permit deletion:</td><td><select><option value='Y'>Yes</option>
+<option value='N' selected='selected'>No</option></select></td></tr><tr><td colspan='2'><input type="submit" value="Submit"></td></tr></table>
+
+</div>
+
+{%else%}<div> This set of duplicates has no determination </div>{%endifequal%}
+
+
+<div></div>
+<div></div>
+<div></div>
 <div class="duplicate">
   <div class="table header">
 	  <div>Primary Key</div>
@@ -29,10 +44,12 @@
 	  <div></div>
 	  <div>Number of Samples</div>
 	  <div></div>
-	  <div>Deletion Status</div>
+	  <div>Action Status</div>
+	  <div>Move Data To</div>
 	  
   </div>
   {%for duplicate in duplicate_entities%}
+  
   <div class="table">
 	  <div>{{duplicate.eno}}</div>
 	  <div>{{duplicate.entityid}}</div>
@@ -53,12 +70,14 @@
 	  <div></div>
 	  <div>{{duplicate.entity.sample_set.count}}</div>
 	  <div></div>
-	  <div>{{duplicate.deletion_status}}</div>
+	  <div>{{duplicate.action_status}}</div>
+	  <div>{{duplicate.data_transferred_to}}</div>
 	  
 	  
   </div>
 {% endfor %}
 </div>
+
 </div>
 </body>
 </html>

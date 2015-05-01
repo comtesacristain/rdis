@@ -8,7 +8,20 @@ from boreholes.models import *
 
 # Create your views here.
 def index(request):
-    duplicate_groups= DuplicateGroup.objects.order_by('-num_dupes').all()
+    has_resolution = request.GET.get('has_resolution')
+    name=request.GET.get('name')
+    type = request.GET.get('type')
+    duplicate_groups= DuplicateGroup.objects
+    if has_resolution:
+
+        duplicate_groups=duplicate_groups.filter(has_resolution=has_resolution)
+    if name:
+
+        duplicate_groups=duplicate_groups.filter(duplicate__entityid__icontains=name)
+    if type:
+
+        duplicate_groups=duplicate_groups.filter(kind=type)
+    duplicate_groups= duplicate_groups.order_by('-num_dupes').all()
     paginator = Paginator(duplicate_groups, 20)
     page = request.GET.get('page')
     try:

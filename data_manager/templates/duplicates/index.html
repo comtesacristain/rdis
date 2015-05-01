@@ -3,6 +3,7 @@
 <head>
 <meta http-equiv="x-ua-compatible" content="IE=Edge"/> 
 {% load staticfiles %}
+{% load duplicate_extras %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
 </head>
@@ -10,19 +11,24 @@
 <div class="content">
 
 <div></div>
-<table>
+<table style="text-align:center;">
 	<tr>
 		<th>Group ID</th>
-		<th>Duplicate field</th>
 		<th>Duplicate type</th>
-		<th>Number of duplicates</th>
+		<th>Duplicates</th>
+		<th>Wells</th>
+		<th>Drillholes</th>
+		<th></th>
 	</tr>
 	{% for duplicate in duplicate_groups %}
-	<tr>
-		<td>{{duplicate.pk}}</td>
-		<td>{{duplicate.field}}</td>
-		<td>{{duplicate.kind}}</td>
+	<tr >
+		<td >{{duplicate.pk}}</td>
+
+		<td>{{duplicate.kind | titleize}}</td>
 		<td>{{duplicate.duplicate_set.count}}</td>
+		<td>{{duplicate.number_of_wells}}</td>
+		<td>{{duplicate.number_of_drillholes}}</td>
+		<td><a href="/data_manager/{{duplicate.id}}"> {% ifequal duplicate.has_resolution "Y" %} Automatically resolution available {% else %} Cannot be automatically resolved {% endifequal%} </a></td>
 	</tr>
 	{% endfor %}	
 </table>
@@ -41,6 +47,23 @@
         {% endif %}
     </span>
 </div>
+<div></div>
+<div><form action="/data_manager">
+<table>
+<tr><th>Borehole name:</th><td><input id="name" name="name" type="text"></td>
+<tr><th>Type:</th><td><select id='type' name='type'>
+	<option value=''>All</option>
+	<option value='exact'>Exact</option>
+	<option value='hundred_metres'>Hundred metres</option>
+	</select></td></tr>
+<tr><th>Has resolution:</th><td><select id='has_resolution' name='has_resolution'>
+	<option value=''>All</option>
+	<option value='Y'>Yes</option>
+	<option value='N'>No</option>
+	</select></td></tr>
+	</table>
+	<input type="submit" value="Search">
+	</form></div>
 </div>
 
 
