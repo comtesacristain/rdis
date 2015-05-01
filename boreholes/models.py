@@ -6,7 +6,7 @@ class Entity(models.Model):
     eno = models.AutoField(primary_key=True)
     entityid = models.TextField()
     entity_type = models.TextField()
-    confid_until = models.DateField(null=True)
+    entrydate = models.DateField(null=True)
     access_code = models.TextField(null=True)
     geom = models.GeometryField(srid=8311,null=True)
     objects = models.GeoManager()
@@ -41,7 +41,7 @@ class Well(models.Model):
     completion_date = models.DateField()
     total_depth =models.IntegerField()
     orig = models.TextField(db_column="originator")
-    origno = models.ForeignKey("Originator",db_column="origno")
+    origno = models.ForeignKey("Originator",db_column="origno",null=True)
     
     def originator(self):
         if self.origno is None:
